@@ -14,12 +14,33 @@
 
 <body>
 
+
+
+<div class="tasks-container">
+  <div class="task-list" data-category="work"></div>
+  <div class="task-list hidden" data-category="shopping"></div>
+  <div class="task-list hidden" data-category="personal"></div>
+</div>
+
+
     <div class="container">
         <form id="task-form">
             <input type="text" id="input-title" placeholder="Title" required>
             <input type="date" id="input-date" required>
             <button type="submit" id="addBtn">add</button>
+            <select id="input-category">
+               <option value="work">Work</option>
+               <option value="personal">Personal</option>
+               <option value="educational">Educational</option>
+            </select>
         </form>
+        
+        <div class="tabs">
+           <button class="tab-button active" data-category="all">All</button>
+           <button class="tab-button" data-category="work">Work</button>
+           <button class="tab-button" data-category="educational">Educational</button>
+           <button class="tab-button" data-category="personal">Personal</button>
+        </div>
 
         <div id="task-list"></div>
     </div>

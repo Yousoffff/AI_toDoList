@@ -7,6 +7,9 @@ const titleInput = document.getElementById("input-title");
 const dateInput = document.getElementById("input-date");
 const taskList = document.getElementById("task-list");
 const submitBtn = document.getElementById("addBtn");
+const categoryInput = document.getElementById("input-category");
+
+
 
 // ایجاد کارت تسک
 function createTaskCard(task) {
@@ -15,19 +18,26 @@ function createTaskCard(task) {
 
   taskCard.innerHTML = `
     <span class="task-title">${task.title}</span>
-    
     <span class="task-date">${task.date}</span>
+    <span class="task-category">${task.category}</span>
     <button class="task-edit"> edit</button>
     <button class="task-delete">delete</button>
-    
   `;
 
   taskList.appendChild(taskCard);
-  gsap.from(taskCard, {
-  y: 100,
+//   gsap.from(taskCard, {
+//   y: 100,
+//   opacity: 0,
+//   duration: 0.7,
+//   ease: "back.out(1.7)"
+// });
+gsap.from(taskCard, {
+  y: -70,
   opacity: 0,
-  duration: 0.7,
-  ease: "back.out(1.7)"
+  scale: 0.8,
+  rotationY: 90,
+  duration: 1.7,
+  ease: "power4.out"
 });
 }
 
@@ -36,6 +46,32 @@ window.addEventListener("DOMContentLoaded", () => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   tasks.forEach(createTaskCard);
 });
+
+
+
+
+
+
+
+
+
+document.querySelectorAll(".tab-button").forEach(button => {
+  button.addEventListener("click", () => {
+    // اکتیو کردن تب فعلی
+    document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    const category = button.dataset.category;
+    renderTasksByCategory(category);
+  });
+});
+
+
+
+
+
+
+
 
 // مدیریت کلیک روی دکمه‌های حذف و ویرایش
 taskList.addEventListener("click", function (e) {
@@ -46,8 +82,9 @@ taskList.addEventListener("click", function (e) {
     const taskCard = e.target.parentElement;
     const title = taskCard.querySelector(".task-title").innerText;
     const date = taskCard.querySelector(".task-date").innerText;
+    const category = taskCard.querySelector(".task-category").innerText;
 
-    const index = tasks.findIndex(task => task.title === title && task.date === date);
+    const index = tasks.findIndex(task => task.title === title && task.date === date && task.category === category);
     const tl = gsap.timeline({
       onComplete: () => {
         tasks.splice(index, 1);
@@ -75,11 +112,13 @@ taskList.addEventListener("click", function (e) {
     const taskCard = e.target.parentElement;
     const title = taskCard.querySelector(".task-title").innerText;
     const date = taskCard.querySelector(".task-date").innerText;
+    const category = taskCard.querySelector(".task-category").innerText;
 
     titleInput.value = title;
     dateInput.value = date;
+    categoryInput.value = category;
 
-    editingIndex = tasks.findIndex(task => task.title === title && task.date === date);
+    editingIndex = tasks.findIndex(task => task.title === title && task.date === date && task.category === category);
     submitBtn.innerText = "save";
   }
 });
@@ -88,22 +127,23 @@ taskList.addEventListener("click", function (e) {
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
- 
-
   const title = titleInput.value.trim();
   const date = dateInput.value.trim();
-  if (!title || !date) return;
+  const category = categoryInput.value;
+  
+
+  if (!title || !date || !category) return;
 
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
   if (editingIndex !== null) {
     // حالت ویرایش
-    tasks[editingIndex] = { title, date };
+    tasks[editingIndex] = { title, date , category };
     editingIndex = null;
     submitBtn.innerText = "add";
   } else {
     // حالت افزودن جدید
-    tasks.push({ title, date });
+    tasks.push({ title, date , category });
   }
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -115,3 +155,22 @@ form.addEventListener("submit", function (e) {
 });
 
 
+
+
+
+
+
+
+
+
+
+function renderTasksByCategory(category) {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  taskList.innerHTML = "";
+  
+  const filteredTasks = category === "all"
+    ? tasks
+    : tasks.filter(task => task.category === category);
+
+  filteredTasks.forEach(createTaskCard);
+}

@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Mono');
 
-header{
-   
-    
-}
+
 
 body{
     font-family: sans-serif;
@@ -40,7 +37,7 @@ body{
     align-items: center;
     margin-top: 20px;
     width: 600px;
-    background-color: #fffefc;
+    background-color: #fffcff;
     background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
     background-repeat: repeat;
     padding: 10px;
@@ -50,10 +47,7 @@ body{
     transition: transform 0.2s ease;
 
 }
-#task-list:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-}
+
 
 
 
@@ -89,8 +83,8 @@ h2{
 
 .task-card{
     margin-top: 20px;
-    border: 1px dotted rgb(194, 193, 193);
-    width: 470px;
+    border: 1px  dotted rgb(194, 193, 193);
+    width: 500px;
     display: flex;
     justify-content: space-between;
     align-items:center;
@@ -101,7 +95,7 @@ h2{
 
 
 .task-title{
-    width: 200px; 
+    width: 150px; 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,7 +112,14 @@ h2{
     cursor: pointer;
 }
 
-.task-date{
+.task-date {
+    white-space: nowrap;
+    font-size: 14px;
+    color: #555;
+}
+
+.task-category{
+    width: 100px;
     white-space: nowrap;
     font-size: 14px;
     color: #555;
@@ -154,5 +155,23 @@ h2{
     color: rgb(54, 189, 54);
     padding: 5px 10px 5px 10px;
     cursor: pointer;
-
 }
+
+#tabs {
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 8px 15px;
+  margin-right: 5px;
+  border: none;
+  background-color: #dddddd00;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background-color: #55555570;
+  color: white;
+}
+
